@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 services:
   web: 
@@ -9,6 +9,8 @@ services:
       - 9000:80
     volumes:
       - ./:/var/www/app
+    networks:
+      - laravel-dev-network
 
   db:
     container_name : ${APP_NAME}_db
@@ -17,13 +19,21 @@ services:
       - 3306:3306
     restart: always
     volumes:
-      - ./mysqldata:/var/lin/mysql
+      - ./mysqldata:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=exampledb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - laravel-dev-network
 
   adminer:
+    container_name: ${APP_NAME}_adminer
     image: adminer
     restart: always
     ports:
       - 8080:8080
+    networks:
+      - laravel-dev-network
+
+networks:
+  laravel-dev-network:
+    name: laravel-dev-network
