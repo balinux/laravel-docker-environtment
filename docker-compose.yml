@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  web: 
+    container_name : ${APP_NAME}_web
+    build:
+      context: ./docker/web
+    ports:
+      - 9000:80
+    volumes:
+      - ./:/var/www/app
+
+  db:
+    container_name : ${APP_NAME}_db
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - ./mysqldata:/var/lin/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=exampledb
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
