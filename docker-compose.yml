@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  web: 
+    container_name : ${APP_NAME}_web
+    build:
+      context: ./docker/web
+    ports:
+      - 9000:80
+    volumes:
+      - ./:/var/www/app
+    networks:
+      - laravel-dev-network
+
+  db:
+    container_name : ${APP_NAME}_db
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - ./mysqldata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - laravel-dev-network
+
+  adminer:
+    container_name: ${APP_NAME}_adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - laravel-dev-network
+
+networks:
+  laravel-dev-network:
+    name: laravel-dev-network
