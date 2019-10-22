@@ -3,6 +3,14 @@
 ## command run for dev mode
 ``` docker-compose up -d ```
 
+## on linux set permisiion logs
+```
+sudo chown -R $USER:www-data storage
+sudo chown -R $USER:www-data bootstrap/cache
+
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+
 ## command acces db
 ```mysql -u root -p -h 127.0.0.1 -P 3307```
 ## reference
